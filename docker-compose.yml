@@ -1,0 +1,24 @@
+services:
+  ms-carros:
+    build: ./ms-carros
+    container_name: ms-carros
+    ports:
+      - "8001:8000"
+    networks:
+      - locadora-net
+
+  ms-aluguel:
+    build: ./ms-aluguel
+    container_name: ms-aluguel
+    ports:
+      - "8000:8000"
+    environment:
+      - CARROS_URL=http://ms-carros:8000
+    depends_on:
+      - ms-carros
+    networks:
+      - locadora-net
+
+networks:
+  locadora-net:
+    driver: bridge
